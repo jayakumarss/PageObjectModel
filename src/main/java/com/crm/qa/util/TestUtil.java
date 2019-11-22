@@ -1,5 +1,7 @@
 package com.crm.qa.util;
 
+//import static com.testngdemo.automation.utils.CaptureSnapshot.captureSnapshotForAllure;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,16 +15,20 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 
 import com.crm.qa.base.TestBase;
+
+import io.qameta.allure.Attachment;
+import io.qameta.allure.Step;
 
 public class TestUtil extends TestBase {
 
 	public static long PAGE_LOAD_TIMEOUT = 20;
 	public static long IMPLICIT_WAIT = 20;
-
-	public static String TESTDATA_SHEET_PATH = "/Users/naveenkhunteta/Documents/workspace"
-			+ "/FreeCRMTest/src/main/java/com/crm/qa/testdata/FreeCrmTestData.xlsx";
+	public static String currentDir = System.getProperty("user.dir");
+	public static String TESTDATA_SHEET_PATH = currentDir
+			+ "/src/main/java/com/crm/qa/testdata/FreeCrmTestData.xlsx";
 
 	static Workbook book;
 	static Sheet sheet;
@@ -58,12 +64,36 @@ public class TestUtil extends TestBase {
 		}
 		return data;
 	}
-
+		
 	public static void takeScreenshotAtEndOfTest() throws IOException {
 		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 		String currentDir = System.getProperty("user.dir");
 		FileUtils.copyFile(scrFile, new File(currentDir + "/screenshots/" + System.currentTimeMillis() + ".png"));
+		
+		
 	}
+	
+	 /*@Step("allure page screenshot")
+	    public TestUtil doScreenshotOfPage() {
+	        captureSnapshotForAllure(driver);
+	        return this;
+	    }*/
+	
+	@Attachment(value = "Page screenshot", type = "image/png")
+    public static byte[] captureSnapshotForAllure(WebDriver driver) {
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    }
+	
+	/*@Attachment(value = "Page screenshot", type = "image/png")
+    public static byte[] captureSnapshotForAllure(WebDriver driver) {
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    }
+	
+	 @Step("allure page screenshot")
+	    public static byte[] doScreenshotOfPage() {
+	        captureSnapshotForAllure(driver);
+	        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+	    }*/
 
 	public static void runTimeInfo(String messageType, String message) throws InterruptedException {
 		js = (JavascriptExecutor) driver;

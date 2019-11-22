@@ -12,15 +12,17 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import com.crm.qa.util.TestUtil;
 
 public class FreeCrmTest {
 
 	static WebDriver driver;
 	static JavascriptExecutor js;
+	public static String currentDir = System.getProperty("user.dir");
 
 	@BeforeMethod
 	public void setUp() throws Exception {
-		System.setProperty("webdriver.chrome.driver", "/Users/naveenkhunteta/Downloads/chromedriver");
+		System.setProperty("webdriver.chrome.driver", currentDir + "/chromedriver_win32/chromedriver.exe");
 		driver = new ChromeDriver();
 		js = (JavascriptExecutor) driver;
 		driver.get("https://www.freecrm.com/index.html");
@@ -32,13 +34,20 @@ public class FreeCrmTest {
 		System.out.println("title is: " + title);
 		getRunTimeInfoMessage("info", title);
 
-		if (title.equals("Free CRM software in the cloud powers sales and customer serviceQQQQ")) {
+		/*if (title.equals("Free CRM software in the cloud powers sales and customer serviceQQQQ")) {
 			getRunTimeInfoMessage("info", "title is correct!! YAY!!!");
 			Assert.assertTrue(true);
-		} else {
+		}*/ 
+		if (title.equals("Free CRM #1 cloud software for any business large or small")) {
+			getRunTimeInfoMessage("info", "title is correct!! YAY!!!");
+			Assert.assertTrue(true);
+			TestUtil.captureSnapshotForAllure(driver);
+		}
+		else {
 			getRunTimeInfoMessage("error", "title is not correct!! BUG BUG BUG!!!");
 			takeScreenshot("freecrmloginpage");
 			Assert.assertTrue(false);
+			TestUtil.captureSnapshotForAllure(driver);
 		}
 
 	}
@@ -83,7 +92,7 @@ public class FreeCrmTest {
 		File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 		// now copy the screenshot to desired location using copyFile //method
 		FileUtils.copyFile(src, 
-				new File("/Users/NaveenKhunteta/Documents/MyPOMFramework/PageObjectModel/screenshots/" + fileName +".png"));
+				new File(currentDir + "/screenshots/" + fileName +".png"));
 
 	}
 

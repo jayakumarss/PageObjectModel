@@ -1,20 +1,27 @@
 package com.crm.qa.base;
 
+//import static com.crm.qa.util.TestUtil.captureSnapshotForAllure;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+//import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 
 import com.crm.qa.util.TestUtil;
 import com.crm.qa.util.WebEventListener;
+
+import io.qameta.allure.Attachment;
+//import io.qameta.allure.Step;
 
 public class TestBase {
 	
@@ -22,6 +29,7 @@ public class TestBase {
 	public static Properties prop;
 	public  static EventFiringWebDriver e_driver;
 	public static WebEventListener eventListener;
+	public static String currentDir = System.getProperty("user.dir");
 	
 	public TestBase(){
 		try {
@@ -41,11 +49,11 @@ public class TestBase {
 		String browserName = prop.getProperty("browser");
 		
 		if(browserName.equals("chrome")){
-			System.setProperty("webdriver.chrome.driver", "/Users/naveenkhunteta/Downloads/chromedriver");	
+			System.setProperty("webdriver.chrome.driver", currentDir + "/chromedriver_win32/chromedriver.exe");	
 			driver = new ChromeDriver(); 
 		}
 		else if(browserName.equals("FF")){
-			System.setProperty("webdriver.gecko.driver", "/Users/naveenkhunteta/Documents/SeleniumServer/geckodriver");	
+			System.setProperty("webdriver.gecko.driver", currentDir + "/geckodriver-v0.26.0-win64/geckodriver.exe");	
 			driver = new FirefoxDriver(); 
 		}
 		
@@ -65,7 +73,10 @@ public class TestBase {
 		
 	}
 	
-	
+	/*@Attachment(value = "Page screenshot", type = "image/png")
+    public static byte[] captureSnapshotForAllure(WebDriver driver) {
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    }*/	
 	
 	
 	

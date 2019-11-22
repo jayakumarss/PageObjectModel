@@ -1,5 +1,5 @@
 /*
- * @author Naveen Khunteta
+ * @author Nadim Rizk
  * 
  */
 
@@ -48,18 +48,24 @@ public class ContactsPageTest extends TestBase{
 		testUtil = new TestUtil();
 		contactsPage = new ContactsPage();
 		loginPage = new LoginPage();
-		homePage = loginPage.login(prop.getProperty("username"), prop.getProperty("password"));
+		homePage = loginPage.login(prop.getProperty("email"), prop.getProperty("password"));
 		TestUtil.runTimeInfo("error", "login successful");
-		testUtil.switchToFrame();
+		//testUtil.switchToFrame();
 		contactsPage = homePage.clickOnContactsLink();
 	}
 	
 	@Test(priority=1)
 	public void verifyContactsPageLabel(){
 		Assert.assertTrue(contactsPage.verifyContactsLabel(), "contacts label is missing on the page");
+		TestUtil.captureSnapshotForAllure(driver);
+		try {
+			TestUtil.takeScreenshotAtEndOfTest();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	@Test(priority=2)
+	/*@Test(priority=2)
 	public void selectSingleContactsTest(){
 		contactsPage.selectContactsByName("test2 test2");
 	}
@@ -69,7 +75,7 @@ public class ContactsPageTest extends TestBase{
 		contactsPage.selectContactsByName("test2 test2");
 		contactsPage.selectContactsByName("ui uiii");
 
-	}
+	}*/
 	
 	@DataProvider
 	public Object[][] getCRMTestData(){
@@ -79,11 +85,31 @@ public class ContactsPageTest extends TestBase{
 	
 	
 	@Test(priority=4, dataProvider="getCRMTestData")
-	public void validateCreateNewContact(String title, String firstName, String lastName, String company){
+	//public void validateCreateNewContact(String title, String firstName, String lastName, String company){
+	public void validateCreateNewContact(String firstName, String lastName, String company){
 		homePage.clickOnNewContactLink();
-		//contactsPage.createNewContact("Mr.", "Tom", "Peter", "Google");
-		contactsPage.createNewContact(title, firstName, lastName, company);
 		
+		TestUtil.captureSnapshotForAllure(driver);
+		try {
+			TestUtil.takeScreenshotAtEndOfTest();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//contactsPage.createNewContact("Mr.", "Tom", "Peter", "Google");
+		contactsPage.createNewContact(firstName, lastName, company);
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		TestUtil.captureSnapshotForAllure(driver);
+		try {
+			TestUtil.takeScreenshotAtEndOfTest();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	

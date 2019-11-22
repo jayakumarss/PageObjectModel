@@ -1,5 +1,5 @@
 /*
- * @autor : Naveen Khunteta
+ * @author : Nadim Rizk
  * 
  */
 package com.qa.ExtentReportListener;

@@ -10,21 +10,34 @@ import com.crm.qa.base.TestBase;
 public class LoginPage extends TestBase{
 	
 	//Page Factory - OR:
-	@FindBy(name="username")
-	WebElement username;
+	@FindBy(name="email")
+	WebElement email;
 	
 	@FindBy(name="password")
 	WebElement password;
 	
-	@FindBy(xpath="//input[@type='submit']")
+	/*@FindBy(xpath="//input[@type='submit']")
+	WebElement loginBtn;*/
+	
+	
+	@FindBy(xpath=("//div[contains(@class,'ui fluid large blue submit button')]"))
 	WebElement loginBtn;
 	
+		
 	@FindBy(xpath="//button[contains(text(),'Sign Up')]")
 	WebElement signUpBtn;
 	
-	@FindBy(xpath="//img[contains(@class,'img-responsive')]")
+	/*@FindBy(xpath="//img[contains(@class,'img-responsive')]")
+	WebElement crmLogo;*/
+	
+	
+	/*@FindBy(xpath=("//div[contains(@class,'onesignal-bell-launcher-button')]"))
+	WebElement crmLogo;*/
+	
+	@FindBy(xpath=("//*[@id=\"onesignal-bell-launcher\"]/div[1]"))
 	WebElement crmLogo;
 	
+		
 	//Initializing the Page Objects:
 	public LoginPage(){
 		PageFactory.initElements(driver, this);
@@ -40,7 +53,7 @@ public class LoginPage extends TestBase{
 	}
 	
 	public HomePage login(String un, String pwd){
-		username.sendKeys(un);
+		email.sendKeys(un);
 		password.sendKeys(pwd);
 		//loginBtn.click();
 		    	JavascriptExecutor js = (JavascriptExecutor)driver;
